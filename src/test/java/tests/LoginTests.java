@@ -36,6 +36,7 @@ public class LoginTests extends AppiumConfig {
                 .submitLogin()
                 .isActivityTitleDisplayed("Contact list");
         Assert.assertTrue(result);
+
     }
 
     @Test

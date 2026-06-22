@@ -28,5 +28,15 @@ public class LoginTests_Second extends AppiumConfig {
                 .logout();
 
     }
+    @Test
+    public void loginWrongEmail(){
+        new AuthenticationScreen(driver)
+                .fillLoginRegistrationForm(User.builder()
+                        .email("lolikmail.ru")
+                        .password("Lolik123!")
+                        .build())
+                .submitLoginNegative()
+                .isErrorMessageHasText("Login or Password incorrect");
+    }
 
 }

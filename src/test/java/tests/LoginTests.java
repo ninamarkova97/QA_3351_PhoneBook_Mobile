@@ -59,6 +59,27 @@ Assert.assertTrue( new AuthenticationScreen(driver)
         .submitLoginNegative()
             .isErrorMessageHasText("Login or Password incorrect");
     }
+    @Test
+    public void loginWrongPassword() {
+        new AuthenticationScreen(driver)
+                .fillLoginRegistrationForm(User.builder()
+                        .email("lolik@mail.ru")
+                        .password("Lolik12")
+                        .build())
+                .submitLoginNegative()
+                .isErrorMessageHasText("Login or Password incorrect");
+    }
+    @Test
+    public void loginUnregistered() {
+        new AuthenticationScreen(driver)
+                .fillLoginRegistrationForm(User.builder()
+                        .email("lol@mail.ru")
+                        .password("Lolik123!")
+                        .build())
+                .submitLoginNegative()
+                .isErrorMessageHasText("Login or Password incorrect");
+    }
+
     @AfterMethod
     public void postCondition(){
         new ContactListScreen(driver).logout();

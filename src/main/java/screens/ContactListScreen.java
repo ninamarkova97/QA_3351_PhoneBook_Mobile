@@ -27,8 +27,9 @@ public class ContactListScreen extends BaseScreen {
 
 
     public AuthenticationScreen logout(){
+        if(activityTextView.getText().equals("Contact list")){
         menuOptions.click();
-        logoutBtn.click();
+        logoutBtn.click();}
         return new AuthenticationScreen(driver);
     }
 

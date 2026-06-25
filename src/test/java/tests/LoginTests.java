@@ -3,6 +3,7 @@ package tests;
 import config.AppiumConfig;
 import models.User;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import screens.AuthenticationScreen;
@@ -75,15 +76,15 @@ Assert.assertTrue( new AuthenticationScreen(driver)
         new AuthenticationScreen(driver)
                 .fillLoginRegistrationForm(User.builder()
                         .email("lol@mail.ru")
-                        .password("Lolik123!")
+                        .password("Lolik478123!")
                         .build())
                 .submitLoginNegative()
                 .isErrorMessageHasText("Login or Password incorrect");
     }
 
-    @AfterMethod
+    @AfterClass
     public void postCondition(){
-        new ContactListScreen(driver).logout();
+        new ContactListScreen(driver).logOut();
     }
 
 

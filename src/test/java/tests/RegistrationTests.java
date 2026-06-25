@@ -39,7 +39,7 @@ public class RegistrationTests extends AppiumConfig {
 
     @AfterMethod
     public void postCondition(){
-        new ContactListScreen(driver).logout();
+        new ContactListScreen(driver).logOut();
     }
 
 }

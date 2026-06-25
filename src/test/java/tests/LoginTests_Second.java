@@ -14,7 +14,7 @@ public class LoginTests_Second extends AppiumConfig {
                 .fillPassword("Lolil123!")
                 .submitLogin()
                 .isAccountOpened()
-                .logout();
+                .logOut();
 
     }
     @Test
@@ -25,7 +25,7 @@ public class LoginTests_Second extends AppiumConfig {
                         .password("Lolik123!").build())
                 .submitLogin()
                 .isAccountOpened()
-                .logout();
+                .logOut();
 
     }
     @Test

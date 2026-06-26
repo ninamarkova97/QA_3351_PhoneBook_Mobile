@@ -31,6 +31,9 @@ public class AuthenticationScreen extends BaseScreen {
     @AndroidFindBy(id = "com.sheygam.contactapp:id/regBtn" )
     WebElement registrationBtn;
 
+
+
+
     public AuthenticationScreen fillEmail(String email) {
         //pause(4000)
         should(emailEditText,10);
@@ -70,5 +73,9 @@ public class AuthenticationScreen extends BaseScreen {
     public ContactListScreen submitRegistration() {
         registrationBtn.click();
         return new ContactListScreen(driver);
+    }
+    public AuthenticationScreen submitRegistrationNegative() {
+        registrationBtn.click();
+        return this;
     }
 }

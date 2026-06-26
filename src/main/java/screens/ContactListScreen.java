@@ -1,11 +1,19 @@
 package screens;
 
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.testng.Assert;
 
+import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 
 public class ContactListScreen extends BaseScreen {
@@ -29,6 +37,15 @@ public class ContactListScreen extends BaseScreen {
     List<WebElement> contactNameList;
 
 
+    @AndroidFindBy(xpath = "//*[@resource-id = 'com.sheygam.contactapp:id/rowContainer']")
+    List<WebElement> contactList;
+
+    @AndroidFindBy(id = "android:id/button1")
+    WebElement yesBtn;
+
+    int countBefore;
+    int countAfter;
+
     public boolean isActivityTitleDisplayed(String text) {
         //return activityTextView.getText().contains("Contact list");
         return isShouldHave(activityTextView, text, 8);
@@ -50,7 +67,7 @@ public class ContactListScreen extends BaseScreen {
     }
 
     public AddNewContactScreen openContactForm() {
-        if(activityTextView.getText().equals("Contact list")) {
+        if (activityTextView.getText().equals("Contact list")) {
             plusBtn.click();
         }
         return new AddNewContactScreen(driver);
@@ -69,6 +86,48 @@ public class ContactListScreen extends BaseScreen {
             }
         }
         Assert.assertTrue(isPresent);
+        return this;
+    }
+
+    public ContactListScreen deleteFirstContact() {
+        isActivityTitleDisplayed("Contact list");
+        countBefore = contactList.size();
+        System.out.println(countBefore);
+
+        WebElement first = contactList.get(0);
+
+        Rectangle rectangle = first.getRect();
+        int xFrom = rectangle.getX() + rectangle.getWidth() / 8;
+        // int xTo = rectangle.getX()+(rectangle.getWidth()/8)*7;
+        int xTo = rectangle.getWidth() - xFrom;
+        int y = rectangle.getY() + rectangle.getHeight() / 2;
+
+//        TouchAction<?> touchAction = new TouchAction<>(driver);
+//        touchAction.longPress(PointOption.point(xFrom, y))
+//                .moveTo(PointOption.point(xTo, y)).release().perform();
+
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH,"finger");
+        Sequence swipe = new Sequence(finger,1);
+
+        swipe.addAction(finger.createPointerMove(Duration.ZERO,PointerInput.Origin.viewport(),xFrom,y));
+        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        swipe.addAction(new Pause(finger,Duration.ofMillis(1000)));
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(600),PointerInput.Origin.viewport(),xTo,y));
+        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(Collections.singletonList(swipe));
+
+        should(yesBtn, 8);
+        yesBtn.click();
+        pause(30);
+        countAfter = contactList.size();
+        System.out.println(countAfter);
+
+        return this;
+    }
+
+    public ContactListScreen isListSizeLessOnOne() {
+        Assert.assertEquals(countBefore - countAfter, 1);
         return this;
     }
 }

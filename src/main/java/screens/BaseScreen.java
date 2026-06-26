@@ -48,7 +48,7 @@ public void pause(int time){
 
     }
 public void checkAlertText(String text){
-    Alert alert = new WebDriverWait(driver, Duration.ofSeconds(10))
+    Alert alert = new WebDriverWait(driver, Duration.ofSeconds(20))
             .until(ExpectedConditions.alertIsPresent());
     driver.switchTo().alert();
     Assert.assertTrue(alert.getText().contains(text));

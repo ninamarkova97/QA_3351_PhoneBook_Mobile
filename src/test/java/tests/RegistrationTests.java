@@ -37,6 +37,24 @@ public class RegistrationTests extends AppiumConfig {
         Assert.assertTrue(result);
     }
 
+    @Test
+    public void registrationWrongEmailTest() {
+        new AuthenticationScreen(driver)
+                .fillEmail("lolikmail.ru")
+                .fillPassword("Lolik123!")
+                .submitRegistrationNegative()
+                .isErrorMessageHasText("{username=must be a well-formed email address}");
+
+    }  @Test
+    public void registrationWrongPasswordTest() {
+        new AuthenticationScreen(driver)
+                .fillEmail("lolik@mail.ru")
+                .fillPassword("Lolik123")
+                .submitRegistrationNegative()
+                .isErrorMessageHasText("{password= At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]}");
+    }
+
+
     @AfterMethod
     public void postCondition(){
         new ContactListScreen(driver).logOut();

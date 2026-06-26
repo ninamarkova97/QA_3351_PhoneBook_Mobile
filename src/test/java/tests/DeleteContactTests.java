@@ -20,6 +20,7 @@ public class DeleteContactTests extends AppiumConfig {
                 .isActivityTitleDisplayed("Contact list");
     }
 
+
     @Test
     public void deleteFirstContact(){
         new ContactListScreen(driver).deleteFirstContact()
